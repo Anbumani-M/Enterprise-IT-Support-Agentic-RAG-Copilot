@@ -1,9 +1,8 @@
-from app.core.config import get_settings
+from pathlib import Path
 
-settings = get_settings()
+from app.services.ingestion import load_file, chunk_documents
+from app.rag.vectorstore import add_documents
 
-print(f"App Name: {settings.app_name}")
-print(f"App Environment: {settings.app_env}")
-print(f"GEMINI API Key: {settings.GEMINI_api_key}")
-print(f"Tavily API Key: {settings.tavily_api_key}")
-print(f"Pinecone API Key: {settings.pinecone_api_key}")
+docs = load_file(Path("data/sample_kb/company_it_handbook.md"))
+chunks = chunk_documents(docs)
+add_documents(chunks)
